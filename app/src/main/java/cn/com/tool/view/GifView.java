@@ -13,10 +13,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Movie;
+import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
-import android.os.Build;
+
 import com.xianwei.frameproject.R;
 
 public class GifView extends View {
@@ -58,11 +59,11 @@ public class GifView extends View {
 
 	public GifView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		setViewAttributes(context, attrs, defStyleAttr);
 	}
 
 	@SuppressLint("NewApi")
-	private void setViewAttributes(Context context,AttributeSet attrs,int defStyle){
+	private void setViewAttributes(Context context, AttributeSet attrs,
+								   int defStyle) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}

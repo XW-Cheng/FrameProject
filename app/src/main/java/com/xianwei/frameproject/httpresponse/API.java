@@ -29,5 +29,7 @@ public class API {
 	/**
 	 * 测试路径
 	 */
-	public static final String TEST_LOGIN = "userLogin.do";
+	public static final String TEST_LOGIN = "user/userLogin.do";
+
+	public static String mBaseUrl = "http://192.168.31.242:8888/okHttpServer/user!getUser";
 }

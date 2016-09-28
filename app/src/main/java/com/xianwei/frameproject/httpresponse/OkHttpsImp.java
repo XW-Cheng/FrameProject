@@ -9,11 +9,16 @@ package com.xianwei.frameproject.httpresponse;/*
  */
 
 import android.content.Context;
+import android.widget.ProgressBar;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.builder.PostFormBuilder;
 
 import java.io.File;
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +34,9 @@ public enum OkHttpsImp {
 	 * 上下文
 	 */
 	private static Context mContext;
+	private static final String SignType = "MD5";
+	private static final String inputCharset = "UTF-8";
+	public static final String md5_key = "d2a57dc1d883fd21fb9951699df71cc7";
 
 	/**
 	 * 获取实例
@@ -124,7 +132,13 @@ public enum OkHttpsImp {
 		myResultCallback.setContext(mContext);
 		myResultCallback.setDialog("");
 
-	//	OkHttpUtils.post().addFile().url(url).params(params).build().execute(myResultCallback);
+		PostFormBuilder builder = OkHttpUtils.post();
+		for(int i=0;i<fileList.size();i++){
+			builder.addFile("file"+i,"image"+i+".png",fileList.get(i));
+		}
+
+		builder.url(url).params(params).build().execute(myResultCallback);
+
 	}
 
 	/**
@@ -138,6 +152,61 @@ public enum OkHttpsImp {
 		myResultCallback.setContext(mContext);
 		myResultCallback.setDialog("");
 		OkHttpUtils.postFile().url(url).file(file).build().execute(myResultCallback);
+	}
+
+	/**
+	 * 初始化文件下载
+	 * @param myDownLoadResultCallback	请求结果回调
+	 * @param url						请求地址
+	 * @param p							ProgressBar
+	 */
+	private void downloadFileResponse(MyDownLoadResultCallback<String> myDownLoadResultCallback
+			,String url,ProgressBar p){
+		myDownLoadResultCallback.setDialog(p);
+		myDownLoadResultCallback.setContext(mContext);
+		OkHttpUtils.get().url(url).build().execute(myDownLoadResultCallback);
+	}
+
+
+	/**
+	 * 签名方法
+	 */
+	private static String getSign(String md5_key, Map<String, String> dataMap) throws Exception {
+		List<String> keyList = new ArrayList<>(dataMap.keySet());
+		Collections.sort(keyList);
+		StringBuilder builder = new StringBuilder();
+		for (String mapKey : keyList) {
+			// builder.append(mapKey).append("=").append(dataMap.get(mapKey))
+			// .append("&");
+			if (!isChinese(dataMap.get(mapKey))) {
+				builder.append(dataMap.get(mapKey));
+			}
+		}
+		// builder.append("key=").append(md5_key);
+		builder.append(md5_key);
+		MessageDigest md5 = MessageDigest.getInstance(SignType);
+		md5.update(builder.toString().getBytes(inputCharset));
+		byte[] md5Bytes = md5.digest();
+		StringBuffer hexValue = new StringBuffer();
+		for (int i = 0; i < md5Bytes.length; i++) {
+			int val = ((int) md5Bytes[i]) & 0xff;
+			if (val < 16) {
+				hexValue.append("0");
+			}
+			hexValue.append(Integer.toHexString(val));
+		}
+		return hexValue.toString();
+	}
+
+	/**
+	 * 判断是否有中文
+	 */
+	public static boolean isChinese(String str) {
+		if (str.length() < str.getBytes().length) {
+			return true;// 中文
+		} else {
+			return false;
+		}
 	}
 
 

@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSON;
 import com.xianwei.frameproject.model.entity.HttpResult;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import cn.com.tool.utils.PrintUtils;
 import cn.com.tool.view.HttpDialog;
 import okhttp3.Call;
 import okhttp3.Request;
@@ -32,7 +33,6 @@ public abstract class MyResultCallback<T> extends StringCallback {
 	public Context mContext;
 
 	public static boolean isShow = true;
-
 
 	@Override
 	public void onBefore(Request request, int id) {
@@ -59,6 +59,7 @@ public abstract class MyResultCallback<T> extends StringCallback {
 					onResponseSuccess(r);
 				}else{
 					onResponseFailed("RESULTERROR");
+					PrintUtils.showToast(mContext,r.getMsg());
 				}
 			}
 		}
@@ -67,9 +68,9 @@ public abstract class MyResultCallback<T> extends StringCallback {
 	@Override
 	public void onError(Call call, Exception e, int id) {
 		isShow = false;
-
 		e.printStackTrace();
 		onResponseFailed("ERROR");
+		PrintUtils.showToast(mContext,"连接超时,请稍后再试");
 	}
 
 	@Override
@@ -81,6 +82,7 @@ public abstract class MyResultCallback<T> extends StringCallback {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
