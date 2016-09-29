@@ -16,6 +16,8 @@ import com.zhy.http.okhttp.https.HttpsUtils;
 
 import java.util.concurrent.TimeUnit;
 
+import cn.com.tool.utils.DataCleanUtils;
+import cn.com.tool.utils.FileUtils;
 import okhttp3.OkHttpClient;
 
 public class MyFrameProjectApplication extends Application {
@@ -41,5 +43,16 @@ public class MyFrameProjectApplication extends Application {
 				.build();
 		OkHttpUtils.initClient(okHttpClient);
 
+		// 初始化异常捕获1
+		//CrashHand handler = CrashHand.getInstance();
+		//Thread.setDefaultUncaughtExceptionHandler(handler);
+
+		//捕获异常
+		CrashHandler crashHandler = CrashHandler.getInstance();
+		crashHandler.init(getApplicationContext());
+
+		//清除缓存
+		DataCleanUtils.cleanExternalCache(getApplicationContext());
+		DataCleanUtils.cleanCustomCache(FileUtils.createSDCardDir("cacheImages"));
 	}
 }

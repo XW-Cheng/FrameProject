@@ -1,11 +1,11 @@
 package com.xianwei.frameproject.ui.activity;/*
  * @创建者     Administrator
  * @创建时间   2016/9/28 15:44
- * @描述       ${TODO}
+ * @描述       所有activity基类
  *
  * @更新者     $Author$ 
  * @更新时间   $Date$
- * @更新描述   ${TODO}
+ * @更新描述
  */
 
 import android.content.pm.ActivityInfo;
