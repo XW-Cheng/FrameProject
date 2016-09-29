@@ -43,10 +43,6 @@ public class MyFrameProjectApplication extends Application {
 				.build();
 		OkHttpUtils.initClient(okHttpClient);
 
-		// 初始化异常捕获1
-		//CrashHand handler = CrashHand.getInstance();
-		//Thread.setDefaultUncaughtExceptionHandler(handler);
-
 		//捕获异常
 		CrashHandler crashHandler = CrashHandler.getInstance();
 		crashHandler.init(getApplicationContext());

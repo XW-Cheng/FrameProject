@@ -3,4 +3,5 @@
     <color name="white">#fff</color>
     <color name="balck">#000</color>
     <color name="transparent">#00ffffff</color>
+    <color name="ededed">#ededed</color>
 </resources>
