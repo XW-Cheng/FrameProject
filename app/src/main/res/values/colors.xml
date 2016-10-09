@@ -4,4 +4,5 @@
     <color name="balck">#000</color>
     <color name="transparent">#00ffffff</color>
     <color name="ededed">#ededed</color>
+    <color name="ffff0000">#ffff0000</color>
 </resources>

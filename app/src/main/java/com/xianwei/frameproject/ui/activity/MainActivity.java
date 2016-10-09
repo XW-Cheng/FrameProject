@@ -209,5 +209,8 @@ public class MainActivity extends BaseActivity {
 
 	}
 
-
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
 }
